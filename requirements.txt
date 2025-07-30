@@ -1,0 +1,7 @@
+numpy>=1.24
+torch>=2.0
+gymnasium>=0.29
+pyyaml>=6.0
+tensorboard>=2.13
+pygame>=2.5
+pytest>=7.4

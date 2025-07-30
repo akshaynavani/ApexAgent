@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apexagent"
+version = "0.1.0"
+description = "PPO reinforcement learning agent that learns to drive laps around a 2D race track"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "torch>=2.0",
+    "gymnasium>=0.29",
+    "pyyaml>=6.0",
+    "tensorboard>=2.13",
+]
+
+[project.optional-dependencies]
+viz = ["pygame>=2.5"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+apex-train = "apexagent.train:main"
+apex-eval = "apexagent.evaluate:main"
+apex-watch = "apexagent.watch:main"
+
+[tool.setuptools.packages.find]
+include = ["apexagent*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
