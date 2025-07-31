@@ -1,0 +1,62 @@
+# ApexAgent default configuration. Any key can be overridden from the CLI:
+#   python -m apexagent.train --set ppo.learning_rate=1e-4 env.tracks=[kidney]
+
+seed: 42
+run_name: null           # defaults to <tracks>-<timestamp>
+log_dir: runs
+device: auto             # auto | cpu | cuda | mps
+
+env:
+  tracks: [oval, kidney]
+  track_width: 12.0
+  num_checkpoints: 20
+  dt: 0.05
+  action_repeat: 2
+  max_steps: 2000
+  laps_to_finish: 2
+  num_rays: 11
+  ray_fov_deg: 180.0
+  ray_range: 60.0
+  lookahead: [10.0, 25.0, 45.0]
+  random_start: true
+  start_speed: 0.0
+  stall_steps: 80
+  off_track_terminates: true
+
+reward:
+  progress: 0.1
+  checkpoint: 2.0
+  lap: 25.0
+  speed: 0.02
+  centerline: 0.05
+  smoothness: 0.02
+  wrong_way: 0.1
+  crash: 10.0
+  time: 0.01
+
+ppo:
+  total_timesteps: 3000000
+  num_envs: 8
+  rollout_steps: 256        # per env -> batch = num_envs * rollout_steps
+  num_epochs: 10
+  num_minibatches: 8
+  learning_rate: 3.0e-4
+  anneal_lr: true
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_coef: 0.2
+  clip_value: true
+  value_coef: 0.5
+  entropy_coef: 0.003
+  max_grad_norm: 0.5
+  target_kl: 0.03
+  hidden_sizes: [256, 256]
+  init_log_std: -0.5
+  normalize_obs: true
+  normalize_reward: true
+
+train:
+  checkpoint_every: 50     # PPO updates
+  eval_every: 25           # PPO updates
+  eval_episodes: 5
+  render_every: 0          # >0: show a live pygame episode every N updates (needs a display)
