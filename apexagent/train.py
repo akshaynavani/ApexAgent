@@ -20,6 +20,7 @@ from apexagent.config import load_config, save_config
 from apexagent.evaluate import evaluate
 from apexagent.factory import env_fn
 from apexagent.rl.buffer import RolloutBuffer
+from apexagent.rl.normalizer import RewardScaler
 from apexagent.rl.ppo import PPO, PPOConfig
 from apexagent.rl.vec_env import SyncVecEnv
 from apexagent.utils.checkpoint import load_checkpoint, save_checkpoint
@@ -72,6 +73,7 @@ def train(cfg: dict, resume: str | None = None) -> Path:
     if resume:
         agent, _ = load_checkpoint(resume, device)
         agent.cfg = ppo_cfg
+        agent.reward_scaler = RewardScaler(ppo_cfg.num_envs, ppo_cfg.gamma, enabled=ppo_cfg.normalize_reward)
         print(f"resumed from {resume} at step {agent.global_step:,}")
     else:
         agent = PPO(obs_dim, act_dim, ppo_cfg, device, seed=seed)

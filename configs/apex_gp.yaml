@@ -1,0 +1,15 @@
+# Harder setup: the technical apex_gp circuit plus procedurally generated tracks so the
+# policy has to generalise rather than memorise one layout.
+env:
+  tracks: [apex_gp, kidney, random]
+  max_steps: 3000
+  stall_steps: 100
+
+reward:
+  centerline: 0.02   # let the agent use the full width on the tighter corners
+  speed: 0.03
+
+ppo:
+  total_timesteps: 8000000
+  num_envs: 16
+  entropy_coef: 0.002
