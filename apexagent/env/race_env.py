@@ -90,6 +90,7 @@ class RaceEnv(gym.Env):
     # ------------------------------------------------------------------ helpers
     def _reset_state(self) -> None:
         self.steps = 0
+        self.start_s = 0.0
         self.proj = None
         self.prev_s = 0.0
         self.total_progress = 0.0  # signed metres along centerline since start
@@ -162,6 +163,7 @@ class RaceEnv(gym.Env):
             start_s = float(self.np_random.uniform(0.0, self.track.length))
         else:
             start_s = 0.0
+        self.start_s = start_s % self.track.length
         pos, heading = self.track.pose_at(start_s)
         self.car.reset(pos, heading, speed=self.cfg.start_speed)
 
